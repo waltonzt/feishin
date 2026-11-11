@@ -8,6 +8,7 @@ import appIcon from '../../../assets/icons/32x32.png';
 import styles from './window-bar.module.css';
 
 import { useRadioPlayer } from '/@/renderer/features/radio/hooks/use-radio-player';
+import { useAppFocus } from '/@/renderer/hooks/use-app-focus';
 import {
     useAppStore,
     usePlayerData,
@@ -74,7 +75,7 @@ interface MacOsButtonIconProps {
 
 const MacOsButtonIcon = ({ color, filled, glyph, glyphColor }: MacOsButtonIconProps) => (
     <svg aria-hidden="true" height={14} viewBox="0 0 14 14" width={14}>
-        <circle cx={7} cy={7} fill={color} r={7} />
+        <circle className={styles.macosButtonFill} cx={7} cy={7} fill={color} r={7} />
         <circle className={styles.macosButtonRing} cx={7} cy={7} r={6.75} />
         <path
             className={styles.macosButtonGlyph}
@@ -88,10 +89,11 @@ const MacOsButtonIcon = ({ color, filled, glyph, glyphColor }: MacOsButtonIconPr
 
 const MacOsControls = ({ controls, title }: WindowBarControlsProps) => {
     const { handleClose, handleMaximize, handleMinimize } = controls;
+    const isWindowFocused = useAppFocus();
 
     return (
         <div className={styles.macosContainer}>
-            <div className={styles.macosButtonGroup}>
+            <div className={clsx(styles.macosButtonGroup, !isWindowFocused && styles.inactive)}>
                 <div
                     className={clsx(styles.macosButton, styles.minButton)}
                     id="min-button"
