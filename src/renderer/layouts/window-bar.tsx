@@ -80,8 +80,8 @@ const MacOsButtonIcon = ({ color, filled, glyph, glyphColor }: MacOsButtonIconPr
             className={styles.macosButtonGlyph}
             d={glyph}
             fill={filled ? glyphColor : 'none'}
-            stroke={glyphColor}
-            strokeWidth={filled ? 0.6 : 1.4}
+            stroke={filled ? 'none' : glyphColor}
+            strokeWidth={1.4}
         />
     </svg>
 );
@@ -107,8 +107,8 @@ const MacOsControls = ({ controls, title }: WindowBarControlsProps) => {
                     <MacOsButtonIcon
                         color="#28c840"
                         filled
-                        glyph="M4.2 4.2h4.4l-4.4 4.4zM9.8 9.8h-4.4l4.4-4.4z"
-                        glyphColor="#0b6311"
+                        glyph="M4 4h5.4L4 9.4zM10 10H4.6L10 4.6z"
+                        glyphColor="#075d0c"
                     />
                 </div>
                 <div className={clsx(styles.macosButton)} id="close-button" onClick={handleClose}>
