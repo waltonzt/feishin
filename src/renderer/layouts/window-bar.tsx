@@ -5,12 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { RiCheckboxBlankLine, RiCloseLine, RiSubtractLine } from 'react-icons/ri';
 
 import appIcon from '../../../assets/icons/32x32.png';
-import macCloseHover from './assets/close-mac-hover.png';
-import macClose from './assets/close-mac.png';
-import macMaxHover from './assets/max-mac-hover.png';
-import macMax from './assets/max-mac.png';
-import macMinHover from './assets/min-mac-hover.png';
-import macMin from './assets/min-mac.png';
 import styles from './window-bar.module.css';
 
 import { useRadioPlayer } from '/@/renderer/features/radio/hooks/use-radio-player';
@@ -71,12 +65,15 @@ const WindowsControls = ({ controls, title }: WindowBarControlsProps) => {
     );
 };
 
+const MacOsButtonIcon = ({ color, glyph }: { color: string; glyph: string }) => (
+    <svg aria-hidden="true" height={12} viewBox="0 0 12 12" width={12}>
+        <circle cx={6} cy={6} fill={color} r={6} />
+        <path className={styles.macosButtonGlyph} d={glyph} />
+    </svg>
+);
+
 const MacOsControls = ({ controls, title }: WindowBarControlsProps) => {
     const { handleClose, handleMaximize, handleMinimize } = controls;
-
-    const [hoverMin, setHoverMin] = useState(false);
-    const [hoverMax, setHoverMax] = useState(false);
-    const [hoverClose, setHoverClose] = useState(false);
 
     return (
         <div className={styles.macosContainer}>
@@ -85,43 +82,18 @@ const MacOsControls = ({ controls, title }: WindowBarControlsProps) => {
                     className={clsx(styles.macosButton, styles.minButton)}
                     id="min-button"
                     onClick={handleMinimize}
-                    onMouseLeave={() => setHoverMin(false)}
-                    onMouseOver={() => setHoverMin(true)}
                 >
-                    <img
-                        alt=""
-                        className="icon"
-                        draggable="false"
-                        src={hoverMin ? macMinHover : macMin}
-                    />
+                    <MacOsButtonIcon color="#febc2e" glyph="M2.8 6h6.4" />
                 </div>
                 <div
                     className={clsx(styles.macosButton, styles.maxButton)}
                     id="max-button"
                     onClick={handleMaximize}
-                    onMouseLeave={() => setHoverMax(false)}
-                    onMouseOver={() => setHoverMax(true)}
                 >
-                    <img
-                        alt=""
-                        className="icon"
-                        draggable="false"
-                        src={hoverMax ? macMaxHover : macMax}
-                    />
+                    <MacOsButtonIcon color="#28c840" glyph="M2.8 6h6.4M6 2.8v6.4" />
                 </div>
-                <div
-                    className={clsx(styles.macosButton)}
-                    id="close-button"
-                    onClick={handleClose}
-                    onMouseLeave={() => setHoverClose(false)}
-                    onMouseOver={() => setHoverClose(true)}
-                >
-                    <img
-                        alt=""
-                        className="icon"
-                        draggable="false"
-                        src={hoverClose ? macCloseHover : macClose}
-                    />
+                <div className={clsx(styles.macosButton)} id="close-button" onClick={handleClose}>
+                    <MacOsButtonIcon color="#ff5f57" glyph="M3.7 3.7l4.6 4.6M8.3 3.7l-4.6 4.6" />
                 </div>
             </div>
             <div className={styles.playerStatusContainer}>
