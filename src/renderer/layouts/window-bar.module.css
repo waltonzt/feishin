@@ -115,9 +115,9 @@
 .macos-button-group {
     position: absolute;
     top: 0;
-    left: 0.5rem;
+    left: 10px;
     display: grid;
-    grid-template-columns: repeat(3, 20px);
+    grid-template-columns: repeat(3, 23px);
     height: 100%;
     -webkit-app-region: no-drag;
 }
@@ -133,12 +133,16 @@
     user-select: none;
 }
 
+.macos-button-ring {
+    fill: none;
+    stroke: rgb(0 0 0 / 15%);
+    stroke-width: 0.5;
+}
+
 .macos-button-glyph {
     opacity: 0;
-    fill: none;
-    stroke: rgb(0 0 0 / 55%);
-    stroke-width: 1.1;
     stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .macos-button-group:hover .macos-button-glyph {

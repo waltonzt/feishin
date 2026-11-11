@@ -65,10 +65,24 @@ const WindowsControls = ({ controls, title }: WindowBarControlsProps) => {
     );
 };
 
-const MacOsButtonIcon = ({ color, glyph }: { color: string; glyph: string }) => (
-    <svg aria-hidden="true" height={12} viewBox="0 0 12 12" width={12}>
-        <circle cx={6} cy={6} fill={color} r={6} />
-        <path className={styles.macosButtonGlyph} d={glyph} />
+interface MacOsButtonIconProps {
+    color: string;
+    filled?: boolean;
+    glyph: string;
+    glyphColor: string;
+}
+
+const MacOsButtonIcon = ({ color, filled, glyph, glyphColor }: MacOsButtonIconProps) => (
+    <svg aria-hidden="true" height={14} viewBox="0 0 14 14" width={14}>
+        <circle cx={7} cy={7} fill={color} r={7} />
+        <circle className={styles.macosButtonRing} cx={7} cy={7} r={6.75} />
+        <path
+            className={styles.macosButtonGlyph}
+            d={glyph}
+            fill={filled ? glyphColor : 'none'}
+            stroke={glyphColor}
+            strokeWidth={filled ? 0.6 : 1.4}
+        />
     </svg>
 );
 
@@ -83,17 +97,26 @@ const MacOsControls = ({ controls, title }: WindowBarControlsProps) => {
                     id="min-button"
                     onClick={handleMinimize}
                 >
-                    <MacOsButtonIcon color="#febc2e" glyph="M2.8 6h6.4" />
+                    <MacOsButtonIcon color="#febc2e" glyph="M3.6 7h6.8" glyphColor="#8f5a14" />
                 </div>
                 <div
                     className={clsx(styles.macosButton, styles.maxButton)}
                     id="max-button"
                     onClick={handleMaximize}
                 >
-                    <MacOsButtonIcon color="#28c840" glyph="M2.8 6h6.4M6 2.8v6.4" />
+                    <MacOsButtonIcon
+                        color="#28c840"
+                        filled
+                        glyph="M4.2 4.2h4.4l-4.4 4.4zM9.8 9.8h-4.4l4.4-4.4z"
+                        glyphColor="#0b6311"
+                    />
                 </div>
                 <div className={clsx(styles.macosButton)} id="close-button" onClick={handleClose}>
-                    <MacOsButtonIcon color="#ff5f57" glyph="M3.7 3.7l4.6 4.6M8.3 3.7l-4.6 4.6" />
+                    <MacOsButtonIcon
+                        color="#ff5f57"
+                        glyph="M4.5 4.5l5 5M9.5 4.5l-5 5"
+                        glyphColor="#8a130b"
+                    />
                 </div>
             </div>
             <div className={styles.playerStatusContainer}>
