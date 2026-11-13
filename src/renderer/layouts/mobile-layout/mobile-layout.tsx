@@ -10,7 +10,7 @@ import { FullScreenVisualizer } from '/@/renderer/features/player/components/ful
 import { MobileFullscreenPlayer } from '/@/renderer/features/player/components/mobile-fullscreen-player';
 import { MobileSidebar } from '/@/renderer/features/sidebar/components/mobile-sidebar';
 import { PlayerBar } from '/@/renderer/layouts/default-layout/player-bar';
-import { WindowBar } from '/@/renderer/layouts/window-bar';
+import { hasNativeTrafficLights, WindowBar } from '/@/renderer/layouts/window-bar';
 import { useFullScreenPlayerOverlayState, useWindowBarStyle } from '/@/renderer/store';
 import { ActionIcon } from '/@/shared/components/action-icon/action-icon';
 import { Drawer } from '/@/shared/components/drawer/drawer';
@@ -35,6 +35,8 @@ export const MobileLayout = ({ shell }: MobileLayoutProps) => {
             <div
                 className={clsx(styles.layout, {
                     [styles.macos]: windowBarStyle === Platform.MACOS,
+                    [styles.nativeMacos]:
+                        windowBarStyle === Platform.MACOS && hasNativeTrafficLights,
                     [styles.windows]: windowBarStyle === Platform.WINDOWS,
                 })}
                 id="mobile-layout"

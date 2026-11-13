@@ -9,7 +9,7 @@
 }
 
 .container.custom-bar {
-    max-height: calc(100vh - 120px);
+    max-height: calc(100vh - var(--window-bar-height, 30px) - 90px);
 }
 
 .scroll-area {

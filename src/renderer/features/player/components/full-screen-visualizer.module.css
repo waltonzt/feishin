@@ -15,7 +15,7 @@
 }
 
 .mobile-container-with-window-bar {
-    top: 30px;
+    top: var(--window-bar-height, 30px);
 }
 
 .controls-container {

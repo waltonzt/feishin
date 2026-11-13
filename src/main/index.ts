@@ -638,8 +638,8 @@ async function createWindow(first = true): Promise<void> {
     };
 
     const macOSOverlayConfig: BrowserWindowConstructorOptions = {
-        titleBarStyle: 'hidden',
-        trafficLightPosition: { x: 12, y: 8 },
+        titleBarStyle: 'hiddenInset',
+        trafficLightPosition: { x: 16, y: 19 },
     };
 
     const savedBounds = store.get('bounds') as Rectangle | undefined;

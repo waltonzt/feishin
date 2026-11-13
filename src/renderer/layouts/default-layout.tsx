@@ -6,7 +6,7 @@ import styles from './default-layout.module.css';
 import { ContextMenuController } from '/@/renderer/features/context-menu/context-menu-controller';
 import { MainContent } from '/@/renderer/layouts/default-layout/main-content';
 import { PlayerBar } from '/@/renderer/layouts/default-layout/player-bar';
-import { WindowBar } from '/@/renderer/layouts/window-bar';
+import { hasNativeTrafficLights, WindowBar } from '/@/renderer/layouts/window-bar';
 import { useSettingsStore, useWindowBarStyle } from '/@/renderer/store/settings.store';
 import { Platform, PlayerType } from '/@/shared/types/types';
 
@@ -33,6 +33,8 @@ export const DefaultLayout = ({ shell }: DefaultLayoutProps) => {
             <div
                 className={clsx(styles.layout, {
                     [styles.macos]: windowBarStyle === Platform.MACOS,
+                    [styles.nativeMacos]:
+                        windowBarStyle === Platform.MACOS && hasNativeTrafficLights,
                     [styles.windows]: windowBarStyle === Platform.WINDOWS,
                 })}
                 id="default-layout"

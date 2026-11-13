@@ -87,7 +87,7 @@ const MacOsButtonIcon = ({ color, filled, glyph, glyphColor }: MacOsButtonIconPr
     </svg>
 );
 
-const hasNativeTrafficLights = isElectron() && Boolean(window.api?.utils?.isMacOS?.());
+export const hasNativeTrafficLights = isElectron() && Boolean(window.api?.utils?.isMacOS?.());
 
 const MacOsControls = ({ controls, title }: WindowBarControlsProps) => {
     const { handleClose, handleMaximize, handleMinimize } = controls;

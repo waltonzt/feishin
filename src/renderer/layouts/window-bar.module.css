@@ -1,6 +1,6 @@
 .window-bar {
     grid-area: window-bar;
-    height: 30px;
+    height: var(--window-bar-height, 30px);
 }
 
 .windows-container {

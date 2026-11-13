@@ -1,4 +1,6 @@
 .layout {
+    --window-bar-height: 30px;
+
     display: grid;
     grid-template-areas:
         'window-bar'
@@ -13,11 +15,15 @@
 }
 
 .windows {
-    grid-template-rows: 30px calc(100vh - 120px) 90px;
-    grid-template-rows: 30px calc(100dvh - 120px) 90px;
+    grid-template-rows: var(--window-bar-height) calc(100vh - var(--window-bar-height) - 90px) 90px;
+    grid-template-rows: var(--window-bar-height) calc(100dvh - var(--window-bar-height) - 90px) 90px;
 }
 
 .macos {
-    grid-template-rows: 30px calc(100vh - 120px) 90px;
-    grid-template-rows: 30px calc(100dvh - 120px) 90px;
+    grid-template-rows: var(--window-bar-height) calc(100vh - var(--window-bar-height) - 90px) 90px;
+    grid-template-rows: var(--window-bar-height) calc(100dvh - var(--window-bar-height) - 90px) 90px;
+}
+
+.native-macos {
+    --window-bar-height: 52px;
 }
