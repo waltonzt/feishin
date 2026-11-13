@@ -637,6 +637,11 @@ async function createWindow(first = true): Promise<void> {
         },
     };
 
+    const macOSOverlayConfig: BrowserWindowConstructorOptions = {
+        titleBarStyle: 'hidden',
+        trafficLightPosition: { x: 12, y: 8 },
+    };
+
     const savedBounds = store.get('bounds') as Rectangle | undefined;
     const workArea = (
         savedBounds && Number.isFinite(savedBounds.x) && Number.isFinite(savedBounds.y)
@@ -677,6 +682,7 @@ async function createWindow(first = true): Promise<void> {
         ...(nativeFrame && isLinux() && nativeFrameConfig.linux),
         ...(nativeFrame && isMacOS() && nativeFrameConfig.macOS),
         ...(nativeFrame && isWindows() && nativeFrameConfig.windows),
+        ...(!nativeFrame && isMacOS() && macOSOverlayConfig),
         ...DEFAULT_WINDOW_BOUNDS,
         ...windowBounds,
     });

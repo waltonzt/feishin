@@ -87,9 +87,23 @@ const MacOsButtonIcon = ({ color, filled, glyph, glyphColor }: MacOsButtonIconPr
     </svg>
 );
 
+const hasNativeTrafficLights = isElectron() && Boolean(window.api?.utils?.isMacOS?.());
+
 const MacOsControls = ({ controls, title }: WindowBarControlsProps) => {
     const { handleClose, handleMaximize, handleMinimize } = controls;
     const isWindowFocused = useAppFocus();
+
+    if (hasNativeTrafficLights) {
+        return (
+            <div className={styles.macosContainer}>
+                <div className={styles.playerStatusContainer}>
+                    <Text className={styles.playerStatusText} overflow="hidden" size="sm">
+                        {title}
+                    </Text>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={styles.macosContainer}>
