@@ -96,7 +96,6 @@
     width: 100%;
     height: 100%;
     background: var(--theme-colors-background);
-    border-bottom: 1px solid alpha(var(--theme-colors-border), 0.5);
     -webkit-app-region: drag;
 }
 
