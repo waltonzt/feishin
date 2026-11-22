@@ -1,3 +1,4 @@
+import { ChildProcess } from 'child_process';
 import { app, ipcMain, powerMonitor } from 'electron';
 import { access, rm } from 'fs/promises';
 import uniq from 'lodash/uniq';
@@ -124,6 +125,53 @@ const DEFAULT_MPV_PARAMETERS = (extraParameters?: string[]) => {
     return parameters;
 };
 
+// A reload that crashes again within this window is not retried, so an mpv that dies on
+// startup (e.g. an output device it cannot open) does not restart in a loop.
+const MPV_CRASH_RELOAD_COOLDOWN_MS = 30_000;
+let lastUnexpectedMpvExitAt = 0;
+
+// node-mpv only reports a crash when mpv exits with code 4, so a segfault or an mpv that
+// exits on its own leaves Feishin sending commands to a dead process. Watch the process
+// directly instead. Intentional quits bump playbackEventGeneration first, so they are ignored.
+const watchForUnexpectedExit = (mpv: MpvAPI, generation: number) => {
+    const mpvProcess: ChildProcess | undefined = (mpv as any).mpvPlayer;
+    if (!mpvProcess) {
+        return;
+    }
+
+    mpvProcess.once('exit', (code, signal) => {
+        const mainWindow = getMainWindow();
+        if (
+            generation !== playbackEventGeneration ||
+            mpvInstance !== mpv ||
+            mpvState !== MpvState.STARTED ||
+            !mainWindow ||
+            mainWindow.isDestroyed()
+        ) {
+            return;
+        }
+
+        mpvInstance = null;
+
+        const reason = signal ?? `code ${code}`;
+        const shouldReload = Date.now() - lastUnexpectedMpvExitAt > MPV_CRASH_RELOAD_COOLDOWN_MS;
+        lastUnexpectedMpvExitAt = Date.now();
+
+        log.error(`mpv exited unexpectedly (${reason})`);
+        // The renderer shows this as a toast and pauses playback.
+        mainWindow.webContents.send(
+            'renderer-player-error',
+            shouldReload
+                ? `mpv exited unexpectedly (${reason}), restarting it`
+                : `mpv exited unexpectedly again (${reason}), check your mpv settings`,
+        );
+
+        if (shouldReload) {
+            mainWindow.webContents.send('renderer-mpv-reconnect');
+        }
+    });
+};
+
 const resolveMpvBinaryPath = async (binaryPath?: string) => {
     if (binaryPath) {
         return binaryPath;
@@ -187,6 +235,7 @@ const createMpv = async (data: {
 
     let previousPlaylistPos: number | undefined;
     const eventGeneration = playbackEventGeneration;
+    watchForUnexpectedExit(mpv, eventGeneration);
 
     suppressRendererPlaybackEvents = false;
 
